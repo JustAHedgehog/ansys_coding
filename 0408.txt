@@ -1,0 +1,52 @@
+finish
+/clear
+
+/prep7
+! 0, 0, 1 is for keyopt1, 2, 3
+et, 1, plane42, 0, 0, 1
+! setting material model number "3"
+mp, ex, 3, 70000
+mp, prxy,3, 0.33
+! Major Poisson's ratios
+BLC4,100,0,100,500
+! because keyopt(3) = 1, real constant = None
+TYPE,   1   
+MAT,       3
+REAL,   
+ESYS,       0   
+SECNUM, 
+
+! 設定30等份的元素
+esize,,30
+! Generates nodes and area elements within area
+amesh,1
+/PNUM,LINE,1
+LPLOT
+
+sfl, 4, pres, 3
+DK,1, , , ,0,UY, , , , , ,  
+! Or use "DK,1, , , ,0,UY, , , , , , "
+/pnum, kp, 1
+
+finish
+
+/solu
+solve
+finish
+
+! 後處理
+/POST1  
+
+PLNSOL,S,X,0,1  
+PLNSOL,S,Z,0,1  
+
+PATH,stress,2,30,60,  ! define path named "stress", pick 2 points, 設定要儲存30點，每兩點之間要細分成60點
+PPATH,1,0,100,0,0,0,
+PPATH,2,0,200,0,0,0,
+
+PDEF, ,S,X,AVG  
+PDEF, ,S,Z,AVG  
+ 
+PLPATH,SX,SZ
+
+PRPATH,SX,SZ

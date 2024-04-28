@@ -1,0 +1,49 @@
+finish
+/clear
+
+/FILNAME,3_25,0   
+/TITLE,3_25
+
+/prep7
+et,25,plane42
+
+keyopt,25,1,0
+keyopt,25,2,0
+keyopt,25,3,3
+keyopt,25,5,0
+keyopt,25,6,0
+
+r,99,2, !2mm
+
+mp,ex, 101,210*1000
+mp,prxy,101,0.3
+
+blc4,0,0,150,50 !modeling>creat>area
+cyl4,0,0,20
+asba,1,2
+
+type,25
+mat,101
+real,99
+!esys,0
+
+lesize,5, , ,12,
+lesize,10, , ,12,
+lesize,9, , ,12,0.2
+lesize,3, , ,12,0.2
+lesize,2, , ,2,
+
+mshkey,0
+amesh,all
+
+sfl,2,pres,-2, !num2,pre2
+
+dl,10, ,symm
+!dl,9, ,symm
+dl,9,3,uy,0
+finish
+
+/solu
+solve
+
+finish
