@@ -1,0 +1,47 @@
+FINISH
+/CLEAR
+
+/PREP7  
+
+ET,1,PLANE42, 0, 0, 1  ! axisymmetric   
+MP,EX,1,210000
+MP,PRXY,1,0.3  ! poisson's ratio
+
+BLC4,200,0,300,500  ! 繪製剖面圖
+
+ESIZE,20
+TYPE,   1   
+MAT,       1
+
+MSHKEY,1      ! mapped mesh 
+AMESH,ALL
+
+EPLOT
+FINISH
+ 
+/SOLU
+ANTYPE,STATIC
+
+DL,4, ,ALL,   ! Constrain LINE4 motion 
+DL,1, , SYMM,
+DL,3, , SYMM,
+SFL,2,PRES,1,
+SOLVE
+FINISH 
+
+/POST1  
+SET,LAST          !  read results 
+RSYS,1            ! cylinder
+PLNSOL,S,X,0,1  
+PLNSOL,S,Z,0,1  
+
+PATH,stress,2,30,60, 
+PPATH,1,0,200,0,0,0,
+PPATH,2,0,500,0,0,0,
+
+PDEF, ,S,X,AVG  
+PDEF, ,S,Z,AVG  
+
+PLPATH,SX,SZ
+
+PRPATH,SX,SZ

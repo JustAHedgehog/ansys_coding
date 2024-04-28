@@ -1,0 +1,44 @@
+FINISH
+/CLEAR
+
+/PREP7
+  PCIRC,10,30,30,-30, 
+  RECTNG,0,70,-2.5,2.5,  
+  AOVLAP,ALL 
+  ADELE,       6, , ,1
+
+  ET, 101, MESH200, 6    ! Reference number for ET = 22 
+  ET, 202, SOLID45,
+
+  MP, DENS, 22, 7.8E-9   ! Reference number for MP= 22 
+  MP, EX, 22, 200E3
+  MP, PRXY, 22, 0.3
+  ESIZE, 2.5
+  TYPE, 101
+
+  MSHKEY,1   !is MSHKEY, no MESHKEY
+  AMESH, ALL
+  
+  TYPE, 202
+  MAT, 22
+
+  ESIZE, , 10
+  VEXT, ALL, , , 0, 0, 50
+
+  CSYS, 1     ! 指定 active coordinates 為 cylindrical coordinate
+! 繞軸複製六份
+  VGEN, 6, ALL, , , 0, 60, 0     !VGEN,ITEM,NV1,NV2,DX,DY,DZ 
+
+!將彼此交界點合一（不然會是同一位置有兩組點）
+  NUMMRG, NODE
+  NUMMRG, KP
+
+  NSEL,S,LOC,X,10
+  D, ALL, ALL, 0   !固定邊界
+  OMEGA,0,0,2000*0.1047,    ! 2000 rpm = (2000×2π/60) rad/sec	
+  ALLSEL
+  FINISH
+
+/SOLU
+  SOLVE
+  FINISH

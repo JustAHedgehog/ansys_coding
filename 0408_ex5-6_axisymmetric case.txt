@@ -1,0 +1,54 @@
+FINISH
+/CLEAR
+
+/FILNAME,ex5-6,0   
+/TITLE,ex5-6. Thick-walled cylinder
+
+/PREP7  
+
+ET,1,PLANE42
+KEYOPT,1,3,1        ! axisymmetric    
+
+ 
+MP,EX,1,70000 
+MP,NUXY,1,0.33  
+
+BLC4,100,0,100,500  ! 繪製剖面圖
+
+ESIZE,10
+TYPE,   1   
+MAT,       1
+
+MSHKEY,1
+AMESH,1 
+
+EPLOT
+
+FINISH  
+
+/SOLU
+ANTYPE,STATIC
+
+DK,1,UY,0                          ! Constrain motion in y
+!DK,1, ,0, ,0,UY, , , , , ,        ! axial constraint
+SFL,4,PRES,3,
+
+SOLVE
+FINISH
+
+/POST1  
+
+PLNSOL,S,X,0,1  
+PLNSOL,S,Z,0,1  
+
+PATH,stress,2,30,60,
+PPATH,1,0,100,0,0,0,
+PPATH,2,0,200,0,0,0,
+
+PDEF, ,S,X,AVG  
+PDEF, ,S,Z,AVG  
+ 
+PLPATH,SX,SZ
+
+PRPATH,SX,SZ
+
