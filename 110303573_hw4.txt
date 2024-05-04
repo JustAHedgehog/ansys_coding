@@ -1,0 +1,41 @@
+FINISH
+/CLEAR
+
+/prep7
+et,1,plane42, , ,1
+
+mp,ex,1,210E3
+mp,prxy,1,0.3
+
+blc4,200,0,300,500
+
+esize,20
+mshkey,1
+amesh,all
+
+type,1
+mat,1
+real,
+esys,0
+
+SFL,2,PRES,1
+
+DL,4, ,all,
+
+DL,1, ,symm,
+DL,3, ,symm,
+finish
+/solu
+solve
+finish
+
+/post1
+rsys,1
+PATH,stress,2,30,60,
+PPATH,1,0,200,0,0,0,
+PPATH,2,0,500,0,0,0,
+
+PDEF, ,S,X,AVG  
+PDEF, ,S,Z,AVG  
+ 
+PLPATH,SX,SZ
