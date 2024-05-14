@@ -1,0 +1,57 @@
+FINISH
+/CLEAR
+
+/FILNAME,ex11-1,     
+/TITLE,ex11-1. Transient analysis of cantilever beam
+
+/PREP7  
+
+ET,1,BEAM3  
+R,1,0.4*0.2,1/12*0.2*0.064,0.4, , , ,   
+ 
+MP,EX,1,12E9   
+MP,DENS,1,1500 
+
+K,,0,0  
+K,,6,0  
+LSTR,       1,       2  
+
+TYPE,   1   
+MAT,       1
+REAL,       1   
+ESIZE,0.2,0,
+LMESH,1, 
+NPLOT   
+EPLOT
+
+DK,1,ALL,0, ,0,  
+FINISH  
+
+/SOLU
+ANTYPE,TRANS
+TRNOPT,FULL       ! full method
+OUTRES,ALL,1       ! write every Nth substep (N=1)
+
+ALPHAD,0
+BETAD,0.006
+
+TIME,0.0001           ! At time equals 0.0001s ¡Ü 0s        
+NSUBST,2         
+TIMINT,OFF            ! Transient effects       
+KBC,1                 ! Stepped load step           
+D, 2,UY,-0.04         ! Define the DOF constraints at the end "NODE"    
+SOLVE
+
+TIME,2
+DELTIM,0.01,0.005,0.02     ! Specifies the time step sizes   
+AUTOTS,ON                  ! Automatic time stepping
+TIMINT,ON   
+DDELE, 2,UY           ! Delete the DOF constraints at the end "NODE"
+SOLVE
+
+FINISH
+
+/POST26 
+NSOL,2,2,U,Y,END-UY       ! Calls data for UY deflection at node 2
+PLVAR,2, , , , , , , , , ,  
+
