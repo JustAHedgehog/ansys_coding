@@ -16,7 +16,7 @@ LSTR, 1, 2
 LSTR, 2, 3
 LSTR, 3, 4
 !設定所切割的元素尺寸
-ESIZE, 0.2, ,
+ESIZE, 0.2, ,   ! 單一元素尺寸(0.2m)
 TYPE, 1
 MAT, 1
 REAL, 1
@@ -31,7 +31,7 @@ DK, 1, ,0, ,0,ALL
 LSEL,S, , , 1
 ESLL,S
 SFBEAM,ALL,1, PRES, 2000
-ALLSEL,ALL
+ALLSEL,ALL        ! 選擇全部東西進行運算
 FK, 3,FY, -4000
 FK, 4,FY, -6000
 SOLVE
