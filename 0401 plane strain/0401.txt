@@ -1,0 +1,59 @@
+finish
+/clear
+
+/prep7
+et,41,plane42, , ,2 !element type
+mp,ex,24,210000 !matrial property
+mp,prxy,24,0.3 !nuxy=prxy for now
+!mp,ex,25,170000
+!mp,prxy,25,0.5
+
+k,1,0,0 !keypoint
+k,2,200,0
+k,3,500,0
+k,4,0,200
+k,5,0,500
+
+LARC,4,2,1,200,
+LARC,5,3,1,500,
+L,4,5
+L,2,3
+
+AL,all
+
+type,41
+mat,24
+real,
+esys,0
+
+esize, ,20 !20 per line
+
+mshkey,1
+amesh,1
+
+DL,1, ,ALL, 
+DL,3, ,SYMM !same ux,0
+DL,4, ,UY,0 !same symm
+
+SFL,2,PRES,1,1
+
+/solu
+solve
+finish
+
+/post1
+rsys,1 !cylinder
+!read result>by pick(S)
+PLNSOL,S,X,0,1  
+PLNSOL,S,Y,0,1  
+!plot result>contour plot>nodal solu>stress>x/y
+PATH,stress,2,30,60,
+PPATH,1,0,200,0,0,0,
+PPATH,2,0,500,0,0,0,
+
+PDEF, ,S,X,AVG  
+PDEF, ,S,Y,AVG  
+
+PLPATH,SX,SY
+
+PRPATH,SX,SY
