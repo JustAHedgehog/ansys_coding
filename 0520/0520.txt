@@ -1,0 +1,47 @@
+FINISH
+/CLEAR
+
+/PREP7
+
+ET, 520, PLANE42 
+KEYOPT, 520, 3, 0      ! plane stress
+! 因為z方向厚度沒有給予，所以使用PLANE STRESS
+!KEYOPT, 520, 3, 3      ! plane stress with thickness
+
+!R, 520, 0.005
+! 編號不要選520那麼大，ANSYS會出事
+MP,EX, 24, 210e9   
+MP,NUXY, 24, 0.3  
+
+K,,0,0,0
+K,,1,0,0
+K,,1,0.08,0  
+K,,0,0.08,0
+A,1,2,3,4,  ! 四點組成一面積
+
+TYPE,520
+MAT,520
+
+ESIZE,0.02  !決定ELEMENT SIZE
+AMESH,1 
+FINISH
+
+/SOLU
+! 設定分析模式
+ANTYPE, STATIC   ! 預設為靜態(STATIC)，所以其實不用打
+NLGEOM, ON   
+AUTOTS, ON       ! automatic time stepping
+NEQIT, 200       ! number of equilibrium iterations
+KBC, 0           ! ramped loading
+! KBC, 1         ! stepped loading
+OUTRES, ALL, ALL ! write all solution items for every substep
+TIME,1
+DELTIME, 0.1, 0.05, 0.2  ! time step sizes，0.1代表起始觀察時間點，0.05為最小抓取時間間距，0.2為最大抓取時間間距
+DL, 4, ALL, 0
+FK, 2, FY, -10**7
+SOLVE
+FINISH
+/POST1
+/DSCALE,1,1.0     ! displacement scaling  
+PLNSOL,U,Y,1,1  
+PLNSOL,U,X,1,1  
