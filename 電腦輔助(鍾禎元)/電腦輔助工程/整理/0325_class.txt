@@ -1,0 +1,52 @@
+finish
+/clear
+
+/prep7
+et,25,plane42
+
+KEYOPT,25,1,0
+KEYOPT,25,2,0
+KEYOPT,25,3,3
+KEYOPT,25,5,0
+KEYOPT,25,6,0
+
+R,99,2
+
+mp,ex,101,210000
+mp,prxy,101,0.3
+
+blc4,0,0,150,50  !making plane
+cyl4,0,0,20      !create a circle
+asba,1,2	 !cut the plane by the circle
+
+type,25
+mat,101
+real,99
+
+lesize,5, , ,12, , 
+lesize,10, , ,12, , 
+lesize,9, , ,12,0,2
+lesize,3, , ,12,0,2
+lesize,2, , ,4
+
+mshkey,0
+amesh,all
+finish
+
+/SOLU
+ANTYPE,STATIC
+SFL,2,PRES,-2,
+
+dl,10, ,symm
+!dl,9, ,symm   ! 二選一
+dl,9,3,uy,0    ! 二選一
+
+ALLSEL,ALL
+SOLVE
+FINISH
+
+/POST1
+PLNSOL,S,X,0,1  
+PLNSOL,S,Y,0,1  
+PLNSOL,S,EQV,0,1  
+

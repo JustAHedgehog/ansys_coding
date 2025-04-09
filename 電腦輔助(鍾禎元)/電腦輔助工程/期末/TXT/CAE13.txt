@@ -1,0 +1,84 @@
+FINISH
+/CLEAR
+
+/FILNAME,ex8-4
+/TITLE,ex8-4. Elastoplastic analysis of a plate with a hole.
+
+/PREP7 
+ 
+ET,1,PLANE42
+KEYOPT,1,3,0       ! plane stress
+
+MPTEMP,1,0                  ! Young's modulus and Poisson's ratio at 0 degree Celsius (resets the previous value in STLOC to zero)
+MPDATA,EX,1, ,71200  
+MPDATA,PRXY,1, ,0.31 
+
+TB,MISO,1,1,6               ! 6 data points to be specified for 1 given temperature
+TBTEMP,0                    ! Temperature = 0 degree Celsius
+TBPT,,0.0036517,260         ! 260/0.0036517=71200
+TBPT,,0.0066,341.68 
+TBPT,,0.0083,358.34 
+TBPT,,0.0133,375.01 
+TBPT,,0.0266,408.34 
+TBPT,,0.0566,441.68 
+TBPLOT
+
+K,1,0,0,0,  
+K,2,225,0,0,  
+K,3,0,450,0,
+K,4,225,450,0,  
+KPLOT
+
+A,1,2,4,3 
+CYL4,0,0,112.5  
+ASBA,       1,       2  
+APLOT
+
+! SMRTSIZE,3  
+LESIZE,10, , ,15,0.2, , , ,1  
+LESIZE, 2, , ,20,3, , , ,1 
+LESIZE, 3, , ,5, , , , ,1  
+LESIZE, 9, , ,9, , , , ,1  
+LESIZE, 5, , ,13, , , , ,1 
+
+TYPE,1
+MAT,1
+MSHKEY,0      ! free mesh
+AMESH,3
+EPLOT
+
+DL,10, ,UX,0  
+DL, 9, ,UY,0  
+
+FINISH  
+
+/SOLU
+ANTYPE,STATIC
+NLGEOM,ON
+OUTRES,ALL,ALL
+AUTOTS,ON
+NEQIT,200
+KBC,0             ! ramped
+
+TIME,1  
+NSUBST,20,30,10  
+SFL,3,PRES, -163.33,  
+SOLVE
+
+FINISH
+                            
+/POST1  
+/DSCALE,1,1.0  
+SET,LAST
+PLNSOL,S,EQV,0,1
+PLNSOL,EPTO,Y,0,1  
+PLNSOL,EPPL,Y,0,1   
+
+PATH,center,2,30,60,
+PPATH,1,0,112.5,0,0,0,
+PPATH,2,0,  225,0,0,0,
+
+PDEF,EYY,EPTO,Y,AVG     ! totoal strain of Y component
+PLPATH,EYY  
+
+

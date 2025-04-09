@@ -1,0 +1,64 @@
+FINISH
+/CLEAR
+
+/FILNAME,ex5-4a,0   
+/TITLE,ex5-4a. Plate with a hole
+
+/PREP7   
+ET,1,PLANE42
+KEYOPT,1,2,0     ! extra displacement shapes
+KEYOPT,1,3,3     ! plane stress with thickness input 
+
+R,1,2,    ! thickness (mm)
+
+!MPTEMP,1,0  
+!MPDATA,EX,1,,210000 
+!MPDATA,PRXY,1,,0.3  
+MP,EX,1,210000
+MP,PRXY,1,0.3
+ 
+BLC4,0,0,150,50 
+CYL4,0,0,20 
+ASBA,1,2  
+
+ASEL,S,AREA, ,3 
+AATT,1,1,1,0,
+ALLSEL,ALL
+  
+LESIZE, 5, , ,12, , , , ,1 
+LESIZE,10, , ,12, , , , ,1 
+LESIZE,2, , ,2, , , , ,1   
+LESIZE,9, , ,12,0.2, , , ,1
+LESIZE,3, , ,16,0.2, , , ,1
+
+MSHKEY,0   ! free mesh 
+AMESH,3 
+
+FINISH  
+
+/SOLU
+ANTYPE,STATIC
+
+SFL,2,PRES,-2,   
+ 
+DL,10, ,UX,0  
+!NSEL,S,LOC,X,0,0 
+!DSYM,SYMM,X
+
+!DL,10, ,SYMM  
+  
+DL,9, ,UY,0 
+!NSEL,S,LOC,Y,0,0 
+!DSYM,SYMM,Y
+
+!DL,9, ,SYMM 
+
+ALLSEL,ALL
+SOLVE
+FINISH
+
+/POST1
+PLNSOL,S,X,0,1  
+PLNSOL,S,Y,0,1  
+PLNSOL,S,EQV,0,1  
+

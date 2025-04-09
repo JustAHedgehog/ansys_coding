@@ -1,0 +1,201 @@
+! Input file gallop.dat for Dynamics Seminar
+!
+
+finish
+/clear
+
+complete=0
+
+/filnam,gallop
+
+/prep7
+et,1,4
+et,2,8
+et,3,43
+!
+r,1,1120,1.3e8,1.8e8,60,112     ! tower
+rmore,,1900
+
+hst=96       ! height of stiffening girders
+
+r,2,238,61000,hst**3*10/12,hst,75 !
+rmore,,140
+
+r,3,124.7           ! hanging cables
+r,4,4.7             ! suspenders
+r,5,.7              ! bridge deck
+
+mp,ex,1,30e6
+mp,dens,1,0.00073
+mp,prxy,1,0.3
+mp,ex,2,30e6
+mp,dens,2,0.00073*2  ! denser to account for paving mat'l and bracing
+mp,prxy,2,0.3
+
+n,1
+towr=240*12      ! height of tower above roadway is 240 feet
+hcs=1400*12      ! half of central span is 1400 feet
+
+n,11,hcs
+fill             ! 11 nodes filling half the span
+
+ss=1100*12       ! side spans are 1100 feet
+n,21,hcs+ss
+fill
+
+! Approximate the cables with parabolas
+
+xincc=hcs/10
+xincs=ss/10
+
+*do,i,1,11
+  xc= (i-1)*xincc
+  zz=towr*(xc/hcs)**2+50         ! parabolic curve
+  n,i+50,xc,,zz
+  xs= (i-1)*xincs
+  zz=towr*(1.0-xs/ss)**1.25+50
+  n,i+60,hcs+xs,,zz
+*enddo
+
+n,100,hcs,,-180*(12)     ! distance from top of foundation to
+			 ! roadway. (foundation sticks out of water)
+nlis,all
+
+! Tower
+
+e,100,11
+e,11,61
+
+! Stiffening truss
+real,2
+e,1,2
+egen,20,1,-1
+
+! Hanging cable
+type,2
+real,3
+e,51,52
+egen,20,1,-1
+
+! Suspenders
+real,4
+e,1,51
+egen,20,1,-1
+elis,all
+edel,53           ! remove suspender along tower to avoid compression
+
+nsym,x,100,all
+esym,,100,all
+ngen,2,200,1,200,1,,70*12
+egen,2,200,all
+
+! Cross members of tower
+type,1
+real,1
+
+e,11,211
+e,61,261
+e,111,311
+e,161,361
+
+! Bridge deck
+
+type,3
+real,5
+mat,2
+
+e,1,2,202,201
+egen,20,1,-1
+e,102,101,301,302
+egen,20,1,-1
+nummrg,node
+
+allsel
+/view,1,1,1,1
+/vup,1,z
+
+*if,complete,eq,1,then
+  /show,gallop,grph
+*endif
+
+eplot
+
+SAVE
+finish
+
+! Static solution for prestress
+/solu
+antype,static   
+pstres,on
+d,100,all,,,400,100 
+d,21,all,,,321,100  
+d,71,all,,,371,100  
+acel,,,386.4             ! Only load for prestress is g
+solve   
+finish
+
+! Prepare for modal solution
+/solu
+acel                     ! Delete acceleration load
+esel,s,real,,2  
+SFBEAM,all,2,PRES,1      ! Pressure loading to create load vector
+nsle
+nsel,r,loc,y,0
+ESLN,S,1
+SFBEAM,all,1,PRES,-0.8
+
+esel,s,real,,2  
+nsle   
+nsel,r,loc,y,840   
+ESLN,S,1
+SFBEAM,all,1,PRES,0.8
+
+ESEL,ALL
+NSEL,ALL
+
+/NUM,1  
+/PNUM,REAL,1
+
+EPLOT
+SAVE
+
+*if,complete,eq,1,then
+  antype,modal
+  modopt,lanb,10
+  mxpand,10,,,yes
+  pstres,on
+  solve
+  finish
+
+  /post1
+  /view,,1,2,3
+  set,,1
+  pldisp
+  set,,2
+  pldisp
+  set,,3
+  pldisp
+  finish
+
+  /solu
+  antype,harmonic
+  hropt,msup
+  harfrq,0,0.4
+  nsubst,40
+  kbc,1
+  dmprat,0.01
+  lvscale,100
+  solve
+  save
+  finish
+
+  /post26
+  file,,rfrq
+  ncen=node(0,0,0)
+  nsol,2,ncen,u,z,umid
+  plvar,2
+  finish
+
+  ! ------
+  ! /input,gallop_more,dat
+*endif

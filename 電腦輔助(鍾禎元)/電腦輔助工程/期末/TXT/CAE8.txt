@@ -1,0 +1,49 @@
+FINISH
+/CLEAR
+
+/prep7
+
+PCIRC, 10, 20, -30, 30       ! inner radius = 10mm, outer radius = 20mm
+
+RECTNG, 0, 70, -2.5, 2.5
+AOVLAP, ALL
+ADELE, 6, , , 1
+
+ET, 100, 200, 6      ! 3D QUAD 4-NODE since this corresponds to an element face of SOLID45
+ET, 1, 45
+MP, EX, 1, 200000
+MP, DENS, 1, 7.8E-9    ! 1kg=0.001 tonne
+MP, NUXY, 1, 0.3
+
+ESIZE, 4
+TYPE, 100
+MSHKEY, 1
+AMESH, ALL
+
+TYPE, 1
+MAT, 1
+ESIZE,   ,5                   ! NDIV
+VEXT,ALL, , ,0,0,-50
+
+CSYS, 1
+VGEN,6,ALL, , ,0,60,0
+NUMMRG, NODE
+NUMMRG, KP
+
+FINISH
+
+/SOLU
+CSYS, 1
+NSEL, S, LOC, X, 10
+D, ALL, ALL, 0
+
+! CSYS, 0
+OMEGA,0,0,209.44      ! 2000 rpm = (2000¡Ñ2£k/60) rad/sec	
+ALLSEL
+SOLVE
+FINISH
+
+/POST1
+PLNSOL,S,EQV
+
+
