@@ -5,7 +5,7 @@ FINISH
 /UNIT SI
 
 /PREP7
-  ET, 1, 3
+  ET, 1, 3 ! BEAM3
   MP, EX, 1, 200E9
   R, 1,3E-4, 2.5E-9, 0.01
   N, 1, 0, 0
