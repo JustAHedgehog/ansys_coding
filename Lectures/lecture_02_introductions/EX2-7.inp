@@ -1,0 +1,41 @@
+FINISH
+/CLEAR
+
+/FILNAME, EX2-7
+/TITLE, Cantilever Beam Deflection
+/UNITS, SI
+
+/PREP7
+
+  ET, 1, 3
+  R, 1, 3E-4, 2.5E-9, 0.01
+  MP, EX, 1, 200E9
+  N, 1, 0, 0
+  N, 2, 1, 0
+  N, 3, 2, 0
+  N, 4, 3, 0
+  N, 5, 4, 0
+  E, 1, 2
+  E, 2, 3
+  E, 3, 4
+  E, 4, 5
+  FINISH
+
+/SOLU
+  ANTYPE, STATIC
+  D, 1, ALL, 0
+  !  D, 1, UX, 0
+  !  D, 1, UY, 0
+  !  D, 1, ROTZ, 0
+  F, 3, FY, -2
+  SFBEAM, 3, 1, PRES, 0.05
+  SFBEAM, 4, 1, PRES, 0.05
+  SOLVE
+  FINISH
+
+/POST1
+
+  SET, 1, 1
+  PRDISP
+  PLDISP
+  FINISH

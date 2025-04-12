@@ -1,0 +1,59 @@
+FINISH
+/CLEAR
+               ! Units: mm, N
+  L    = 60    ! Length
+  H    = 10    ! Height
+  B    = 6        ! Width
+  E    = 200000 ! Young¡¦s modulus (MPa)
+  NU   = 0.3    ! Poisson¡¦s ratio
+  SIZE = 3        ! Element size
+  Q    = 1        ! Distributed load (MPa)
+  P    = 100    ! Point load
+
+/PREP7
+
+  K, 1, 0, -H/2, -B/2
+  K, 2, 0,  H/2, -B/2
+  K, 3, 0,  H/2,  B/2
+  K, 4, 0, -H/2,  B/2
+  K, 5, L, -H/2, -B/2
+  K, 6, L,  H/2, -B/2
+  K, 7, L,  H/2,  B/2
+  K, 8, L, -H/2,  B/2
+  V, 1, 2, 3, 4, 5, 6, 7, 8
+
+  /VIEW,, 1, 2, 3
+  VPLOT
+  ET, 1, SOLID45
+  MP, EX, 1, E
+  MP, NUXY, 1, NU
+
+  TYPE, 1
+  MAT, 1
+  ESIZE, SIZE
+  VMESH, ALL
+  FINISH
+
+/SOLU
+
+  ! Fixed end
+  NSEL, S, LOC, X, 0
+  D, ALL, ALL, 0
+  ! Distributed load
+  NSEL, S, LOC, Y, H/2
+  SF, ALL, PRES, Q
+  NSEL, ALL
+  ! Loads at free end
+  N1 = NODE(L,-H/2,-B/2)
+  N2 = NODE(L,-H/2,B/2)
+  F, N1, FY, -P/2
+  F, N2, FY, -P/2
+  SOLVE
+  FINISH
+
+/POST1
+
+  /VIEW,, 0, 0, 1
+  PLDISP, 2
+  PLNSOL, S, X
+
