@@ -5,7 +5,7 @@ FINISH
   L    = 60E-3    ! Length
   H    = 10E-3    ! Height
   B    = 6E-3     ! Width
-  E    = 200000E6 ! Young's modulus (Pa)
+  E    = 200000E6 ! Young's modulus (200000*10^6 Pa), 200000 = coefficient; e = 10 to the power of; 6 = exponent
   NU   = 0.3    ! Poisson's ratio
   SIZE = 3E-3       ! Element size,一格佔多少單位
   Q    = 1E6        ! Distributed load (Pa)
@@ -21,16 +21,16 @@ FINISH
   K, 6, L,  H/2, -B/2
   K, 7, L,  H/2,  B/2
   K, 8, L, -H/2,  B/2
-  V, 1, 2, 3, 4, 5, 6, 7, 8
+  V, 1, 2, 3, 4, 5, 6, 7, 8 ! Defines a volume through keypoints
 
   /VIEW,, 1, 2, 3
-  VPLOT
+  VPLOT ! Displays the selected volumes.（等同於點擊上方介面的Plot->Volumes）
   ET, 1, SOLID45
   MP, EX, 1, E
   MP, NUXY, 1, NU
 
   TYPE, 1
-  MAT, 1 ! 指定MAT為編號一的
+  MAT, 1 ! 指定MAT為編號1的
   ESIZE, SIZE ! 切的網格尺寸
   VMESH, ALL
   FINISH
@@ -55,6 +55,6 @@ FINISH
 /POST1
 
   /VIEW,, 0, 0, 1 ! 變更視角
-  PLDISP, 2
+  PLDISP, 2 ! 繪製變形後的樣子，2:Def + under edge
   PLNSOL, S, X
 

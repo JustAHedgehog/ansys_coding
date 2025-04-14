@@ -2,7 +2,7 @@ FINISH
 /CLEAR
 
 /TITLE, Cantilever Beam Deflection
-/UNIT SI
+/UNIT, SI
 
 /PREP7
   ET, 1, 3 ! BEAM3
@@ -29,7 +29,7 @@ FINISH
 
 /SOLU
   ANTYPE STATIC
-  D, 1, ALL, 0
+  D, 1, ALL, 1000
   F, 5, FY, -2
   SFBEAM, 5, 1, PRES, 0.05
   SFBEAM, 6, 1, PRES, 0.05
