@@ -1,0 +1,42 @@
+FINISH
+/CLEAR
+
+/PREP7  
+
+ET,1,BEAM3
+R, 1, 0.05*0.05, 5.208E-7, 0.05
+MP, EX, 1, 3e11
+MP, PRXY, 1, 0.3
+K,,0,0
+K,,4,0
+K,,8,0
+LSTR, 1, 2  
+LSTR, 2, 3  
+LATT,1,1,1, , , , 
+
+ESIZE,1,0,
+LMESH,1,2,1
+NPLOT
+EPLOT
+
+FINISH  
+
+
+/SOLU
+ 
+ANTYPE,STATIC
+DK,1, ,0, ,0,ALL, , , , , ,
+DK,3, ,0, ,0,UY, , , , , ,   
+LSEL,S, , , 1 
+ESLL,S  
+SFBEAM,ALL,1,PRES,2000, , , , , ,  
+ALLSEL,ALL
+FK,2,FY,-8000
+
+SOLVE
+FINISH
+
+/POST1
+PLDISP, 1 ! displaced structure
+PRNSOL, DOF ! nodal solution of DOF
+FINISH
