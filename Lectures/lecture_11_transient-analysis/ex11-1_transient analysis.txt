@@ -6,26 +6,25 @@ FINISH
 
 /PREP7  
 
-ET,1,BEAM3  
-R,1,0.4*0.2,1/12*0.2*0.064,0.4, , , ,   
- 
-MP,EX,1,12E9   
-MP,DENS,1,1500 
+ET,1,BEAM3
+R,1,0.4*0.2,1/12*0.2*0.064,0.4,,,,
 
-K,,0,0  
-K,,6,0  
-LSTR,       1,       2  
+MP,EX,1,12E9
+EP,DENS,1,1500
+K,,0,0
+K,,6,0
+L,      1,      2 ! LSTR是畫"直"線，但因為我們只有兩點，所以用L也會被視為畫直線
 
-TYPE,   1   
+TYPE,   1
 MAT,       1
-REAL,       1   
-ESIZE,0.2,0,
-LMESH,1, 
-NPLOT   
+REAL,      1
+ESIZE,0.05,0,
+LMESH,1,
+NPLOT
 EPLOT
 
-DK,1,ALL,0, ,0,  
-FINISH  
+DK,1,ALL,0,,0,
+FINISH
 
 /SOLU
 ANTYPE,TRANS
@@ -53,5 +52,4 @@ FINISH
 
 /POST26 
 NSOL,2,2,U,Y,END-UY       ! Calls data for UY deflection at node 2
-PLVAR,2, , , , , , , , , ,  
-
+PLVAR,2, , , , , , , , , ,
