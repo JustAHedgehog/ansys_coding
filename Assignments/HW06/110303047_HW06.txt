@@ -2,10 +2,11 @@ FINISH
 /CLEAR
 
 /PREP7
-ET, 29, 3
-R, 101, 0.003*0.006, 1/12*0.003*0.006**3, 0.006
+ET, 29, BEAM3 ! 或者寫3也可以
+R, 101, 0.003*0.006, 1/12*0.003*0.006**3, 0.006 ! 因為是BEAM3，所以要加R
 MP, DENS, 5, 1100
 MP, EX, 5, 2200E6
+MP, GXY, 5,EX/2.6 ! Avoid Warning
 
 K, 1, 0, 0
 K, 2, 0.3, 0
@@ -19,7 +20,7 @@ LMESH, ALL
 
 DK, 1, UX, 0
 DK, 1, UY, 0
-DK, 2, UX, 0
+! DK, 2, UX, 0
 DK, 2, UY, 0
 
 FINISH
