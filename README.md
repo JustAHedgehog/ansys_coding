@@ -5,3 +5,6 @@ This repository is attached on the lecture "**Computer Aided Engineering**", and
 ## Grading Policy
 ![image](https://github.com/user-attachments/assets/23b627b0-0e9e-48a9-9492-dfc256f05885)
 
+# Midtern Notice
+
+In 2025 lectures, the final exam is as same as midtern exam in 2024. So be careful for preparing the midtern exam!!!

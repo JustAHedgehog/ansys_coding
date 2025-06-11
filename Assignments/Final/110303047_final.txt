@@ -1,0 +1,52 @@
+FINISH
+/CLEAR
+
+/PREP7
+ET, 1, LINK1
+
+R, 1, 32.3E-4
+R, 2, 38.7E-4
+R, 3, 25.8E-4
+
+MP, EX, 1, 6.9E10
+MP, EX, 2, 20.7E10
+MP, EX, 3, 20.7E10
+
+N, 1, 0, 0     ! B
+N, 2, 2.54, 0  ! A
+N, 3, 0, 2.54  ! C
+
+TYPE, 1 !ET1
+MAT, 1  !MP1
+REAL, 1 !R1
+E, 1, 3 ! ELEMENT 1 (BC)
+
+TYPE, 1
+MAT, 2
+REAL, 2
+E, 1, 2 ! ELEMENT 2 (AB)
+
+TYPE, 1
+MAT, 3
+REAL, 3
+E, 2, 3 ! ELEMENT 3 (AC)
+
+FINISH
+
+/SOLU
+ANTYPE, STATIC
+D, 1, ALL, 0
+D, 3, ALL, 0
+
+F, 2, FY, -111000
+F, 2, FX, 22200
+
+SOLVE
+FINISH
+
+
+/POST1
+SET,LIST
+PLDISP,1 ! displaced structure
+PRNSOL, U, COMP ! nodal solution of displacements
+FINISH
