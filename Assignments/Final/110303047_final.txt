@@ -35,8 +35,11 @@ FINISH
 
 /SOLU
 ANTYPE, STATIC
-D, 1, ALL, 0
-D, 3, ALL, 0
+! node 1&3 為旋轉對，只要固定 X&Y 方向的自由度即可，不得使用ALL限制全部
+D,1,UX,0
+D,1,UY,0
+D,3,UX,0
+D,3,UY,0
 
 F, 2, FY, -111000
 F, 2, FX, 22200
